@@ -1,0 +1,149 @@
+openapi: 3.0.0
+info:
+  title: 'Gateway API'
+  version: 1.0.0
+
+components:
+  securitySchemes:
+    bearerAuth:   
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: [] 
+paths:
+  /:
+    get:
+      tags: 
+        - home 
+      summary: 'Get status'
+      operationId: 5aeb21eb14626d47415174baf0626d95
+      responses:
+        '200':
+          description: 'Get online status'
+  /oauth/token:
+    post:
+      tags: 
+          - auth 
+      summary: 'provides the bearer token'
+      responses:
+        '200':
+          description: "provides bearer token"
+        '401':
+          description: "not authorized"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                client_id:
+                  type: string
+                  example: 4
+                client_secret:
+                  type: string
+                  example: "z3DJuvH71bD2n0E4XhI7Igzpjt2ONNEUfYAynq2z"
+                grant_type: 
+                  example: "client_credentials"
+  /books:
+    get:
+      tags: 
+        - books
+      summary: 'provides all the books'
+      responses:
+        '200':
+          description: "returns all the books"
+        '401':
+          description: "not authorized"
+    post:      
+      tags: 
+        - books
+      requestBody:
+        description: 'creates an book'
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                title:  
+                  type: string
+                  example: "name"
+                author_id:  
+                  type: string
+                  example: "23"
+              
+      responses:
+        '200':
+          description: "returns the created book"
+        '401':
+          description: "not authorized"
+  /books/{id}:
+    delete:
+      tags: 
+        - books
+      summary: 'deletes specified book'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "returns deleted author"
+        '401':
+          description: "not authorized"
+  /authors:
+    get:
+      tags: 
+        - authors
+      summary: 'provides all the authors'
+      responses:
+        '200':
+          description: "returns all the authors"
+        '401':
+          description: "not authorized"
+    post:      
+      tags: 
+        - authors
+      summary: 'creates an author'
+      requestBody:
+        description: 'creates an author'
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                name:  
+                  type: string
+                  example: "name"
+                gender:  
+                  type: string
+                  example: "female"
+                country:  
+                  type: string
+                  example: "Argentina"
+              
+      responses:
+        '200':
+          description: "returns the created author"
+        '401':
+          description: "not authorized"
+  /authors/{id}:
+    delete:
+      tags: 
+        - authors
+      summary: 'deletes specified authors'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "returns all the authors"
+        '401':
+          description: "not authorized"
